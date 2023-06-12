@@ -36,7 +36,6 @@ function addLesson() {
                   <input
                     type="text"
                     name="name"
-                    value={name}
                     onChange={(e) => setName(e.target.value)}
                     className=" border-2 border-gray-100 focus:outline-none bg-gray-100 block w-full py-2 px-4 rounded-lg focus:border-gray-700 "
                     placeholder="name"
@@ -46,7 +45,6 @@ function addLesson() {
                   <input
                     type="text"
                     name="title"
-                    value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="border-2 border-gray-100 focus:outline-none bg-gray-100 block w-full py-2 px-4 rounded-lg focus:border-gray-700 "
                     placeholder="title"

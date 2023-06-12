@@ -1,19 +1,48 @@
+import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
+import { useRouter } from "next/router";
 
-function login() {
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const loginFrom = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("http://127.0.0.1:8000/api/auth/login", { email: email, password: password })
+      .then((res) => {
+        let result = res.data;
+        console.log(result);
+        if (result.status) {
+          //Set token and user localStorage
+          localStorage.setItem("token", result.token);
+          localStorage.setItem("user", JSON.stringify(result.user));
+          router.push("/lesson/lesson");
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <>
         <section className="min-h-screen flex flex-col">
           <div className="flex flex-1 items-center justify-center">
             <div className="rounded-lg sm:border-2 px-4 lg:px-24 py-16 lg:max-w-xl sm:max-w-md w-full text-center">
-              <form className="text-center">
+              <form className="text-center" onSubmit={loginFrom}>
                 <h1 className="font-bold tracking-wider text-3xl mb-8 w-full text-gray-600">
                   Sign in
                 </h1>
                 <div className="py-2 text-left">
                   <input
                     type="email"
+                    name="email"
+                    onChange={(e) => setEmail(e.target.value)}
                     className=" border-2 border-gray-100 focus:outline-none bg-gray-100 block w-full py-2 px-4 rounded-lg focus:border-gray-700 "
                     placeholder="Email"
                   />
@@ -21,12 +50,15 @@ function login() {
                 <div className="py-2 text-left">
                   <input
                     type="password"
+                    name="password"
+                    onChange={(e) => setPassword(e.target.value)}
                     className="border-2 border-gray-100 focus:outline-none bg-gray-100 block w-full py-2 px-4 rounded-lg focus:border-gray-700 "
                     placeholder="Password"
                   />
                 </div>
                 <div className="py-2">
                   <button
+                    onClick={loginFrom}
                     type="submit"
                     className="border-2 border-gray-100 focus:outline-none bg-purple-600 text-white font-bold tracking-wider block w-full p-2 rounded-lg focus:border-gray-700 hover:bg-purple-700"
                   >
@@ -56,4 +88,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

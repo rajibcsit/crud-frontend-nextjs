@@ -13,11 +13,17 @@ function lesson() {
   //get All Post here from API
   const getAllLesson = async () => {
     try {
-      await axios.get("http://127.0.0.1:8000/api/lesson").then((res) => {
-        setData(res.data.data);
-        console.log("res.data.data");
-        console.log(res.data.data);
-      });
+      //get and pass authorization bearer token
+      const getToken = localStorage.getItem("token");
+      const token = getToken;
+      console.log(getToken);
+      await axios
+        .get(`http://127.0.0.1:8000/api/lesson`, { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          setData(res.data.data);
+          console.log("res.data.data");
+          console.log(res.data.data);
+        });
     } catch (error) {
       console.log(error);
     }
