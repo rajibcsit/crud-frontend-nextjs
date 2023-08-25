@@ -21,7 +21,6 @@ function lesson() {
         .get(`http://127.0.0.1:8000/api/lesson`, { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
           setData(res.data.data);
-          console.log("res.data.data");
           console.log(res.data.data);
         });
     } catch (error) {
